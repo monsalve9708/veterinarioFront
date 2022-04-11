@@ -1,0 +1,64 @@
+<div class="modal fade" id="peluqueria" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Peluquería</h5>
+          <button type="button" class="close"#close data-dismiss="modal" id="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="peluqueriaForm">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <div class="input-group mb-3 margt">
+                          <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01"><span style="color: red;">*</span> Producto</label>
+                          </div>
+                          <select formControlName="producto" class="custom-select" id="inputSexo">
+                            <option value='Selección' selected>Selección</option>
+                            <option value = "Spa">Spa</option>
+                            <option value = "Baño">Baño</option>
+                            <option value = "Peluqueria">Peluquería</option>
+                            <option value = "Corte">Corte uñas</option>
+                          </select>
+                        </div>
+                        <div class="alert alert-danger" role="alert" *ngIf="peluqueriaForm.get('producto').errors && peluqueriaForm.get('producto').errors.errorSelect && peluqueriaForm.get('producto').touched">
+                          El producto es obligatorio.
+                        </div>
+                      </div>
+                    <div class="form-group col-md-6">
+                        <label ><span style="color: red;">*</span> Valor del servicio:</label>
+                      <input type="text" class="form-control" id="Valor" placeholder="Valor" formControlName="valor">
+                      <div class="alert alert-danger mt-3" role="alert" *ngIf="peluqueriaForm.get('valor').errors && peluqueriaForm.get('valor').errors.required && peluqueriaForm.get('valor').touched">
+                        El valor es obligatorio.
+                      </div>
+                      <div class="alert alert-danger mt-3" role="alert" *ngIf="peluqueriaForm.get('valor').errors && peluqueriaForm.get('valor').errors.stringError && peluqueriaForm.get('valor').touched">
+                        No se puede ingresar caracteres, solo números.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row" *ngIf="peluqueriaSelected">
+                    <div class="form-group col-md-6">
+                            <label >Fecha:</label>
+                            <input type="text" class="form-control" id="fecha" formControlName="fecha">
+                      </div>
+                    <div class="form-group col-md-6">
+                        <label >Creado por:</label>
+                      <input type="text" class="form-control" formControlName="usuario">
+                    </div>
+                  </div>
+                  <label ><span style="color: red;">*</span> Descripción:</label>
+                  <textarea class="form-control"formControlName="descripcion" placeholder="Descripcion" required></textarea>
+                 <div class="alert alert-danger mt-2" role="alert" *ngIf="peluqueriaForm.get('descripcion').errors && peluqueriaForm.get('descripcion').errors.required && peluqueriaForm.get('descripcion').touched">
+                        La descripción es obligatoria
+                      </div>
+              </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" [disabled]="!peluqueriaForm.valid" *ngIf="!peluqueriaSelected" (click)="submit()">Guardar Registro</button>
+        </div>
+      </div>
+    </div>
+  </div>

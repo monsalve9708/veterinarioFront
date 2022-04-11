@@ -1,0 +1,71 @@
+<div class="container text-center mt-3">
+  <div class="alert alert-danger" role="alert" *ngIf="getErro">
+    No se ha encontrado mascota
+  </div>
+  <div class="alert alert-danger" role="alert" *ngIf="errorUser">
+    No existe el usuario por favor registrarlo
+  </div>
+<h4>Consultar Mascotas</h4>
+</div>
+<div class="card container mt-4" style="width: 60rem;" >
+    <div class="card-body">
+        <div class="row mt-2" [formGroup]="consulta">
+        <div class="input-group mb-3 col">
+          <div class="input-group-prepend">
+            <label class="input-group-text" for="inputGroupSelect01">Tipo Identificación</label>
+          </div>
+          <select formControlName="tipoId" class="custom-select" id="inputGroupSelect01" >
+            <option value="cc" selected>Identificación cliente</option>
+            <option value="cm">Cédula mascota</option>
+          </select>
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" placeholder="Numero de identificación" formControlName="numeroIdent">
+        </div> 
+    </div>
+    <div class="text-center">
+    <button type="submit" class="btn btn-info button" (click) ="actionButton()">Buscar</button>
+    </div>
+  </div>
+  </div>
+  <div class="text-center container mt-5">
+    <button class="btn btn-secondary" *ngIf="validIrPlan && loginService.hasRole('Administrador')" (click)="routeToHuellas()" > Ir Plan Huellas Sanas <i class="fas fa-arrow-right"></i></button>
+    <button class="btn btn-secondary" *ngIf="ValidInscripPlan && loginService.hasRole('Administrador')" data-toggle="modal" data-target="#planhuellas" >Inscribir Plan Huellas Sanas <i class="far fa-clipboard"></i></button>  
+  <app-modal-planhuellas [cdCliente]="cdCliente" (save)="recibirInscrip($event)"></app-modal-planhuellas>
+  </div>
+  <div class="text-center container mt-5">
+    <button class="btn btn-info" *ngIf="validAnadir" data-toggle="modal" data-target="#exampleModal" (click)="noSendMascota()" ><i class="fas fa-paw"></i> Añadir Mascota</button>
+    <table class="table table-hover mt-3" *ngIf="listMascotas">
+        <thead>
+          <tr>
+            <th scope="col">Cédula mascota</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Raza</th>
+            <th scope="col">Color</th>
+            <th scope="col">Especie</th>
+            <th scope="col">Sexo</th>
+            <th scope="col">Fecha de nacimiento</th>
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of listMascotas; let i=index">
+            <td>{{item.cdidentificacion}}</td>
+            <td>{{item.dsnombre}}</td>
+            <td>{{item.dsraza}}</td>
+            <td>{{item.dscolor}}</td>
+            <td>{{item.dsespecie}}</td>
+            <td>{{item.dssexo}}</td>
+            <td>{{mapFecha(item.fechaNa)}}</td>
+            <td>
+                <button class="btn btn-circle" *ngIf="loginService.hasRole('Administrador','Veterinario','Estilista')" data-toggle="modal" data-target="#exampleModal" title="Editar" (click)="sendMascota(item)"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-circle" *ngIf="loginService.hasRole('Administrador','Veterinario')" (click)="routeTo(item,'/historia')" title="Nueva consulta"><i class="fas fa-plus"></i></button>
+                <button class="btn btn-circle" *ngIf="loginService.hasRole('Administrador','Veterinario')" (click)="routeTo(item,'/historial')" title="Historial"><i class="fas fa-file-alt"></i></button>
+                <button class="btn btn-circle" *ngIf="loginService.hasRole('Administrador','Estilista')" (click)="routeTo(item,'/peluqueria')" title="Peluqueria"><i class="fas fa-cut"></i></button>
+                <button class="btn btn-circle" *ngIf="loginService.hasRole('Administrador')" (click)="deleteMascota(item.cdidentificacion)" title="Eliminar"><i class="fas fa-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <app-add-mascota [mascotaSelected] ="mascota" [validActu]="sendActua" [cdCliente]="cdCliente" (save)="recibirInfo($event)"></app-add-mascota>
+  </div>

@@ -1,0 +1,20 @@
+.imagelogo{
+    width: 70px;
+    height: 70px;
+}
+.label{
+    margin-left: 60px;
+}
+.select{
+    margin-left: 60px;
+}
+.elegir{
+    margin-left: 50px;
+}
+.text{
+    margin-left: 200px;
+}
+.error{
+    color: red;
+    font-size: 14px;
+}

@@ -1,0 +1,26 @@
+<div class="modal fade" id="seguimodal" #seguimodal tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+    <div class="modal-dialog mw-100 w-75">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Seguimiento</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" [formGroup]="formGroup">
+          <label>Nota: para guardar la información, oprimir boton Archivar y luego Enviar en historia clínica</label>
+          <textarea class="form-control motivo ml-1"maxlength="5000"  formControlName="descripcion"></textarea>
+          <div class="container">
+            <label class="texto mt-2"> Medico: <span class="notexto">{{seguiHisto ? seguiHisto.cdUsuario : ""}}</span></label>
+          </div>
+          <div class="container">  
+            <label class="texto"> Fecha de creacion: <span class="notexto">{{seguiHisto ? seguiHisto.fecha.date.day +"-"+seguiHisto.fecha.date.month+
+              "-"+seguiHisto.fecha.date.year : ""}}</span></label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="emitir()">Archivar</button>
+        </div>
+      </div>
+    </div>
+  </div>

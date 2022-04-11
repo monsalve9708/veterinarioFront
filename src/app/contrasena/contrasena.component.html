@@ -1,0 +1,58 @@
+<div class="modal fade" id="cambio" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h5 class="modal-title" id="exampleModalLabel">Cambio contraseña</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="container">
+          <div class="alert alert-danger" role="alert" *ngIf="messageError">
+            {{messageError}}
+          </div>
+          <div class="alert alert-success" role="alert" *ngIf="messageSucesfull">
+            {{messageSucesfull}}
+          </div>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="cambioForm">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Usuario</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" formControlName="usuario">
+                <div class="mt-2 error" role="alert" *ngIf="cambioForm.get('usuario').errors && cambioForm.get('usuario').errors.required && cambioForm.get('usuario').touched">
+                  El usuario es obligatorio
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label  class="col-sm-3 col-form-label">Contraseña</label>
+              <div class="col-sm-9">
+                <input type="password" class="form-control" formControlName="contra" (blur)="confirmaContra()">
+                <div class="mt-2 error" role="alert" *ngIf="cambioForm.get('contra').errors && cambioForm.get('contra').errors.required && cambioForm.get('contra').touched">
+                  La contraseña es obligatoria
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label  class="col-sm-3 col-form-label">Confirmar contraseña</label>
+              <div class="col-sm-9 mt-2">
+                <input type="password" class="form-control" formControlName="confirm" (blur)="confirmaContra()">
+                <div class="mt-2 error" role="alert" *ngIf="cambioForm.get('confirm').errors && cambioForm.get('confirm').errors.required && cambioForm.get('confirm').touched">
+                  Debe confirmar la contraseña
+                </div>
+                <div class="mt-2 error" role="alert" *ngIf="cambioForm.get('contra').errors && cambioForm.get('contra').errors.maxlength">
+                  Las contraseñas deben ser iguales
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-danger" [disabled]="!cambioForm.valid" (click)="submit()">Cambiar</button>
+        </div>
+      </div>
+    </div>
+  </div>

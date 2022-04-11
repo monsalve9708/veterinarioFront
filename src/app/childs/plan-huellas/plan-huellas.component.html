@@ -1,0 +1,61 @@
+<button type="button" class="btn btn-secondary mt-2 ml-2" (click) = "volver()"><i class="fas fa-hand-point-left"></i> </button>
+
+<div class="card border-0 container mt-2"  >
+    <div class="card-header bg-info text-center">
+        <h4 class="infoColor">Información del cliente</h4>
+    </div>
+<div class="card-body" *ngIf="cliente ">
+<div class="row container">
+<span class="col"><span class="font-weight-bold">Cédula: </span>{{cliente.identificacion}}</span>
+<span class="col"><span class="font-weight-bold">Nombre: </span>{{cliente.nombre +' '+ cliente.apellido}}</span>
+</div>
+<div class="row container mt-2" *ngIf="planHuellas">
+    <span class="col"><span class="font-weight-bold">Dia de pago: </span>{{planHuellas.diaPago}}</span>
+    <span class="col"><span class="font-weight-bold">Valor mensual: </span>{{planHuellas.valorPactado}}</span>
+</div>
+</div>
+</div>
+<div class="container mt-5">
+    <button class="btn btn-circle" title="Agregar" data-toggle="modal" data-target="#transaciones"><i class="fas fa-plus-circle" style="font-size: 30px; color: #17a2b8;"></i></button>
+</div>
+<div class="text-center" *ngIf="planhuellasTransas" >
+    <table class="table table-hover mt-3" >
+        <thead>
+          <tr>
+            <th scope="col">Código de transación</th>
+            <th scope="col">Fecha de creación</th>
+            <th scope="col">Descripcion</th>
+            <th scope="col">Valor</th>
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of planhuellasTransas | slice: (page-1) * 5 : (page-1) * 5 + 5">
+                <td>{{item.cdPlanHuellasTransas}}</td>
+                <td>{{mapFecha(item.fechaOperacion)}}</td>
+                <td>{{item.descripcion}}</td>
+                <td><span *ngIf="item.tipoOperacion === 1" style="color: red;">-{{item.valor}}</span><span *ngIf="item.tipoOperacion === 0" style="color: green;">+{{item.valor}}</span></td>
+                <td>
+                  <button class="btn btn-circle" title="Eliminar" (click)="deletePlan(item.cdPlanHuellasTransas)"><i class="fas fa-trash"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="font-weight-bold">Total</td>
+                <td>
+                    {{total | currency}}
+                </td>
+                
+              </tr>
+     </tbody>
+     <ngb-pagination
+     [(page)]="page"
+     [pageSize]="5"
+     [collectionSize]="planhuellasTransas.length"></ngb-pagination>
+      </table>
+    </div>
+    <button class="btn btn-success mt-2 ml-2" (click)="downloadCsV()">Descargar Reporte</button>
+    <app-plan-transa [cdPlan]="cdPlan" (save)="recibirInscrip($event)"></app-plan-transa>
+    <br>

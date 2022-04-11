@@ -1,0 +1,62 @@
+<button type="button" class="btn btn-secondary mt-2 ml-2" (click) = "volver()"><i class="fas fa-hand-point-left"></i> </button>
+
+    <div class="container">
+      <div class="alert alert-danger" role="alert" *ngIf="messageError">
+        {{messageError}}
+      </div>
+    </div>
+<div class="card border-0 container mt-2"  *ngIf="mascota">
+    <div class="card-header bg-info text-center">
+        <h4 class="infoColor">Información de mascota</h4>
+    </div>
+<div class="card-body">
+<div class="row container">
+<span class="col"><span class="font-weight-bold">Cédula: </span>{{mascota.cdidentificacion}}</span>
+<span class="col"><span class="font-weight-bold">Nombre: </span>{{mascota.dsnombre}}</span>
+<span class="col"><span class="font-weight-bold">Color: </span>{{mascota.dscolor}}</span>
+</div>
+<div class="row container mt-2">
+    <span class="col"><span class="font-weight-bold">Raza: </span>{{mascota.dsraza}}</span>
+    <span class="col"><span class="font-weight-bold">Sexo: </span>{{mascota.dssexo}}</span>
+    <span class="col"><span class="font-weight-bold">Fecha de nacimiento: </span>{{mascota.fechaNa}}</span>
+    </div>
+    <div class="row container mt-2">
+      <span class="col-4"><span class="font-weight-bold">Dueño: </span>{{usuario.nombre +' '+ usuario.apellido}}</span>
+      <span class="col"><span class="font-weight-bold">Cedula dueño: </span>{{usuario.identificacion}}</span>
+      </div>
+</div>
+</div>
+<div class="container mt-4">
+  <h4 class="text-center">Historial mascota</h4>
+  </div>
+<div class="container mt-5">
+    <button class="btn btn-circle" title="Crear" (click)="routeTo('/historia')" ><i class="fas fa-plus-circle" style="font-size: 30px; color: #17a2b8;"></i></button>
+</div>
+<div class="text-center container" *ngIf="historiaClinica">
+<table class="table table-hover mt-3" >
+    <thead>
+      <tr>
+        <th scope="col">Código de historia</th>
+        <th scope="col">Cédula Mascota</th>
+        <th scope="col">Fecha de creación</th>
+        <th scope="col">Usuario</th>
+        <th>Opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of historiaClinica | slice: (page-1) * 5 : (page-1) * 5 + 5">
+            <td>{{item.cdHistoria}}</td>
+            <td>{{item.cdMascota}}</td>
+            <td>{{mapFecha(item.fechaCreacion)}}</td>
+            <td>{{item.cdUsuario}}</td>
+            <td>
+               <button class="btn btn-circle" (click)="verHistoria(item)" title="Ver"><i class="far fa-eye"></i></button>
+            </td>
+          </tr>
+ </tbody>
+ <ngb-pagination
+ [(page)]="page"
+ [pageSize]="5"
+ [collectionSize]="historiaClinica.length"></ngb-pagination>
+  </table>
+</div>

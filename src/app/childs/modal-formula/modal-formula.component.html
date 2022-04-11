@@ -1,0 +1,85 @@
+<div class="modal fade" id="formula" #formula tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+    <div class="modal-dialog mw-100 w-75">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Formula Medica</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-danger" role="alert" *ngIf="messageError">
+            {{messageError}}
+          </div>
+          <div class="alert alert-success" role="alert" *ngIf="messageSucesfull">
+            {{messageSucesfull}}
+          </div>
+            <div class="row">
+          <div class="left-align col-2 ml-5">
+            <img class="imagelogo" src="../../assets/huellassanas.png">
+          </div>
+          <div class="col-8 border rounded ml-5" *ngIf="mascota">
+              <div class="row">
+                <div class="col-7">
+                    <label style="font-weight: bold;">Paciente: <span style="font-weight: normal;">{{mascota.dsnombre}}</span></label>
+                </div> 
+                <div class="col">
+                    <label style="font-weight: bold;">Especie: <span style="font-weight: normal;">{{mascota.dsespecie}}</span></label>
+                </div>         
+          </div>
+          <div class="row">
+            <div class="col-7">
+                <label style="font-weight: bold;">Fecha de nacimiento: <span style="font-weight: normal;">{{mascota.fechaNa}}</span></label>
+            </div>
+            <div class="col">
+                <label style="font-weight: bold;">Raza: <span style="font-weight: normal;">{{mascota.dsraza}}</span></label>
+            </div>
+          </div>
+          <div class="row" *ngIf="usuario">
+                <div class="col">
+                    <label style="font-weight: bold;">Responsable: <span style="font-weight: normal;">{{usuario.nombre}} {{usuario.apellido}}</span></label>
+             </div>
+            </div>
+              </div>
+
+        </div>
+        <div>
+        <h4 class="mt-4">R:/</h4>
+        </div>
+        <div class="container">
+        <div class="row mt-4">
+          <label class="font-weight-bold col-3 label">Producto</label>
+          <label class="font-weight-bold col-3 ml-4">Presentación</label>
+          <label class="font-weight-bold elegir col-3">Elegir producto</label>
+      </div>
+        <div class="row mt-2" *ngFor="let item of formularioForm.controls; index as i" [formGroup]="item">
+                <input type="text" class="form-control col-3 ml-3" formControlName="producto" maxlength="60">
+                
+                <select class="custom-select col-3 select" formControlName="presentacion" >
+                    <option selected value="Selección">Selección</option>
+                    <option value="Tabletas">Tabletas</option>
+                    <option value="Suspension">Suspension</option>
+                    <option value="Inyectable">Inyectable</option>
+                    <option value="Inyectable IM">Inyectable IM</option>
+                    <option value="Inyectable SC">Inyectable SC</option>
+                    <option value="Inyectable IV">Inyectable IV</option>
+                  </select>
+                  <select class="custom-select col-3 ml-5" formControlName="elegir">
+                    <option selected value="Selección">Selección</option>
+                    <option *ngFor="let value of producto" value = "{{value.dsMedicamento}}">{{value.dsMedicamento}}</option>
+                  </select>
+                <div class="container mt-1">
+                <textarea class="form-control" style="height: 40px;" formControlName="descripcion"></textarea>
+              </div>
+      </div>
+      <button type="button" class="btn btn-info mt-2 mr-5" (click)="initArray()"><i class="fas fa-plus-circle"></i></button>
+
+    </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" [disabled]="!formularioForm.valid" (click)="submit()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>

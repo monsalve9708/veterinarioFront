@@ -1,0 +1,119 @@
+<a type="button" class="btn btn-secondary mt-2 ml-2" href="/mascotas"><i class="fas fa-hand-point-left"></i> </a>
+<div class="container">
+  <div class="alert alert-success mt-4" role="alert" *ngIf="createSuccess">
+    Usuario creado exitosamente
+  </div>
+  <div class="alert alert-danger mt-4" role="alert" *ngIf="createFail">
+    Ocurrió un error, Intente nuevamente o comuníquese con su administrador
+  </div>
+
+    <div class="text-center mt-2"><h4>Registro persona</h4></div>
+
+    <form class="mt-5" [formGroup]="usuarioForm">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+              <label >Nombre <span style="color: red;">*</span></label>
+              <input type="text" class="form-control" id="nombre" placeholder="Nombre" formControlName="nombre" (blur)="generateUsuario()">
+              <div class="alert alert-danger mt-2" role="alert" *ngIf="usuarioForm.get('nombre').errors && usuarioForm.get('nombre').errors.required && usuarioForm.get('nombre').touched">
+                El nombre es obligatorio
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label >Apellido <span style="color: red;">*</span></label>
+              <input type="email" class="form-control" id="apellido" placeholder="Apellido" formControlName="apellido" (blur)="generateUsuario()">
+              <div class="alert alert-danger mt-2" role="alert" *ngIf="usuarioForm.get('apellido').errors && usuarioForm.get('apellido').errors.required && usuarioForm.get('apellido').touched">
+                El apellido es obligatorio
+              </div>
+            </div>
+          </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+              <label >Numero Identificación <span style="color: red;">*</span></label>
+              <input type="text" class="form-control" id="s" placeholder="Numero Identificación" formControlName="identificacion" (blur)="verificacion()">
+              <div class="alert alert-danger mt-2" role="alert" *ngIf="usuarioForm.get('identificacion').errors && usuarioForm.get('identificacion').errors.required && usuarioForm.get('identificacion').touched">
+                El numero de identificación es obligatorio
+              </div>
+              <div class="alert alert-danger mt-2" role="alert" *ngIf="usuarioForm.get('identificacion').errors && usuarioForm.get('identificacion').errors.stringError">
+                El numero de identificación no puede contener letras
+              </div>
+              <div class="alert alert-danger mt-2" role="alert" *ngIf="errorUser">
+                El usuario ya existe
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label >Correo electronico <span style="color: red;">*</span></label>
+              <input type="email" class="form-control" id="inputEmail" placeholder="Correo electronico" formControlName="email" >
+              <div class="alert alert-danger mt-2" role="alert" *ngIf="usuarioForm.get('email').errors && usuarioForm.get('email').errors.required && usuarioForm.get('email').touched">
+                El correo electronico es obligatorio
+              </div>
+              <div class="alert alert-danger mt-2" role="alert" *ngIf="usuarioForm.get('email').errors && usuarioForm.get('email').errors.emailError && usuarioForm.get('email').touched">
+                El formato del correo electronico es incorrecto
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label >Dirección <span style="color: red;">*</span></label>
+              <input type="text" class="form-control" id="inputDireccion" placeholder="Dirección" formControlName="direccion">
+              <div class="alert alert-danger mt-2" role="alert" *ngIf="usuarioForm.get('direccion').errors && usuarioForm.get('direccion').errors.required && usuarioForm.get('direccion').touched">
+                La dirección es obligatoria
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label >Tipo de persona <span style="color: red;">*</span></label>
+              <select formControlName="tipousu" class="custom-select" id="inputGroupSelect01" (change)="changeTipoUsuario()">
+                <option value="Cliente" selected>Cliente</option>
+                <option value="Veterinario" *ngIf="loginService.hasRole('Administrador')">Veterinario</option>
+                <option value="Estilista" *ngIf="loginService.hasRole('Administrador')">Estilista</option>
+                <option value="Auxiliar" *ngIf="loginService.hasRole('Administrador')">Auxiliar</option>
+                <option value="Administrador" *ngIf="loginService.hasRole('Administrador')">Administrador</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label >Celular <span style="color: red;">*</span></label>
+              <input type="text" class="form-control" id="inputTelefono" placeholder="Celular" formControlName="telefono" >
+              <div class="alert alert-danger mt-2" role="alert" *ngIf="usuarioForm.get('telefono').errors && usuarioForm.get('telefono').errors.required && usuarioForm.get('telefono').touched">
+                El celular es obligatorio
+              </div>
+              <div class="alert alert-danger mt-2" role="alert" *ngIf="usuarioForm.get('telefono').errors && usuarioForm.get('telefono').errors.stringError ">
+                El celular no puede contener caracteres
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label >Usuario</label>
+              <label class="form-control">{{usuario}}</label>
+            </div>
+          </div>
+          <div class="form-row" *ngIf="!tipoCliente">
+            <div class="form-group col-md-6">
+              <label >Contraseña <span style="color: red;">*</span></label>
+              <input type="password" class="form-control" id="inputContraseña" (blur)="confirmaContra()" placeholder="Contraseña" formControlName="contraseña" (keyup)=" confirmaContra()">
+              <div class="alert alert-danger mt-2" role="alert" *ngIf="usuarioForm.get('contraseña').errors && usuarioForm.get('contraseña').errors.required && usuarioForm.get('contraseña').touched">
+                La contraseña es obligatoria
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label >Confirme la contraseña <span style="color: red;">*</span></label>
+              <input type="password" class="form-control" id="inputPassword4" (blur)="confirmaContra()" placeholder="Confirme la contraseña" formControlName="conficontraseña" (keyup)="confirmaContra()">
+              <div class="alert alert-danger mt-2" role="alert" *ngIf="usuarioForm.get('conficontraseña').errors && usuarioForm.get('conficontraseña').errors.required && usuarioForm.get('conficontraseña').touched">
+                Debe confirmar la contraseña
+              </div>
+              <div class="alert alert-danger mt-2" role="alert" *ngIf="usuarioForm.get('contraseña').errors && usuarioForm.get('contraseña').errors.maxlength">
+                Las contraseñas deben ser iguales
+              </div>
+            </div>
+          </div>
+          <div class="form-row" *ngIf="tipoVete">
+            <div class="form-group col-md-6">
+              <label >Numero matricula <span style="color: red;">*</span></label>
+              <input type="text" class="form-control" id="inputMatricula" placeholder="Numero matricula" formControlName="matricula" >
+              <div class="alert alert-danger mt-2" role="alert" *ngIf="usuarioForm.get('matricula').errors && usuarioForm.get('matricula').errors.required && usuarioForm.get('matricula').touched">
+                El numero de matricula es obligatorio
+              </div>
+            </div>
+          </div>
+        <button type="submit" class="btn btn-info" [disabled]="!usuarioForm.valid" (click)="createUsuario()">Crear</button>
+      </form>
+</div>

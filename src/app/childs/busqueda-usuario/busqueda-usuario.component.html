@@ -1,0 +1,41 @@
+<div class="text-center mt-4" *ngIf="usuario">
+    <div class="input-group ml-3 col-4">
+        <div class="justify-content-between" [formGroup]='searchTerm' >
+            <input type="text" class="form-control" placeholder="Buscar" aria-label="Buscar" formControlName='dato' aria-describedby="basic-addon1">
+        </div>
+        <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>  
+        <button class="btn btn-success reporte" (click)="gerReporte()">Descargar Reporte</button>
+    </div>
+<table class="table table-striped mt-2">
+    <thead>
+    <tr>
+      <th scope="col-1">Nombre</th>
+      <th scope="col-1">Apellido</th>
+      <th scope="col-1">Cedula</th>
+      <th scope="col-1" *ngIf="loginService.hasRole('Administrador')">Correo Electronico</th>
+      <th scope="col-1" *ngIf="loginService.hasRole('Administrador')">Direccion</th>
+      <th scope="col-1" *ngIf="loginService.hasRole('Administrador')">Telefono</th>
+      <th scope="col-3">Opciones</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of usuario |filter:searchTerm.get('dato').value | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+            <td>{{item.nombre}}</td>
+            <td>{{item.apellido}}</td>
+            <td>{{item.identificacion}}</td>
+            <td *ngIf="loginService.hasRole('Administrador')">{{item.email}}</td>
+            <td *ngIf="loginService.hasRole('Administrador')">{{item.direccion}}</td>
+            <td *ngIf="loginService.hasRole('Administrador')">{{item.telefono}}</td>
+            <td>
+                <button class="btn btn-circle" (click)="registro(item.identificacion)"  *ngIf="loginService.hasRole('Administrador')" title="Editar"><i class="fas fa-user-edit"></i></button>
+                <button class="btn btn-circle" (click)="mascotas(item.identificacion)" title="Ir"><i class="fas fa-pager"></i></button>
+             </td>
+          </tr>
+    </tbody>
+     <ngb-pagination
+ [(page)]="page"
+ [pageSize]="pageSize"
+ [collectionSize]="(usuario |filter:searchTerm.get('dato').value).length"
+ ></ngb-pagination>
+  </table>
+</div>

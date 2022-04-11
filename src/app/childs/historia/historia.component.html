@@ -1,0 +1,514 @@
+<button type="button" class="btn btn-secondary mt-2 ml-2" (click) = "volver()"><i class="fas fa-hand-point-left"></i> </button>
+<div id="divId">
+<div class="container" >
+  <div class="alert alert-danger" role="alert" *ngIf="messageError">
+    {{messageError}}
+  </div>
+  <div class="alert alert-success" role="alert" *ngIf="messageSucesfull">
+    {{messageSucesfull}}
+  </div>
+</div>
+<div class="card border-0 container mt-2" id="all" *ngIf="mascota && usuario">
+    <div class="card-header bg-info text-center">
+        <h4 class="infoColor">Información de mascota</h4>
+    </div>
+<div class="card-body">
+<div class="row container">
+<span class="col"><span class="font-weight-bold">Cédula: </span>{{mascota.cdidentificacion}}</span>
+<span class="col"><span class="font-weight-bold">Nombre: </span>{{mascota.dsnombre}}</span>
+<span class="col"><span class="font-weight-bold">Color: </span>{{mascota.dscolor}}</span>
+</div>
+<div class="row container mt-2">
+    <span class="col"><span class="font-weight-bold">Raza: </span>{{mascota.dsraza}}</span>
+    <span class="col"><span class="font-weight-bold">Sexo: </span>{{mascota.dssexo}}</span>
+    <span class="col"><span class="font-weight-bold">Fecha de nacimiento: </span>{{mascota.fechaNa}}</span>
+    </div>
+    <div class="row container mt-2" *ngIf="usuario">
+      <span class="col-4"><span class="font-weight-bold">Dueño: </span>{{usuario.nombre +' '+ usuario.apellido}}</span>
+      <span class="col"><span class="font-weight-bold">Cedula dueño: </span>{{usuario.identificacion}}</span>
+      </div>
+</div>
+</div>
+<div class="container mt-4">
+  <h4 class="text-center">Historia Clínica</h4>
+  </div>
+<div class="card container mt-5" *ngIf="mascota">
+        <h4 class="text-center mt-2">Anamnesis</h4>
+
+<div class="card-body">
+<div class="row container">
+</div>		
+<div class="row mt-1" [formGroup]="historiaForm">
+    <label class="font-weight-bold col-2 mt-1"> Tipo de vivienda:</label>
+    <input type="text" class="form-control col-2" formControlName="tipoVivienda" maxlength="30">
+    <label class="font-weight-bold label col-3 mt-1"> Cantidad mascotas:</label>
+    <input type="number" class="form-control col-2" formControlName="cantidadMascota">
+</div>
+<div class="row mt-1">
+  <div class="error col-4" role="alert">
+    <span *ngIf="historiaForm.get('tipoVivienda').errors && historiaForm.get('tipoVivienda').errors.required && historiaForm.get('tipoVivienda').touched">El tipo de vivienda es obligatorio.</span>
+  </div>
+  <div class="error col-4 label" role="alert" *ngIf="historiaForm.get('cantidadMascota').errors && historiaForm.get('cantidadMascota').errors.required && historiaForm.get('cantidadMascota').touched">
+    La cantidad de mascotas es obligatoria.
+  </div>
+</div>
+    <div class="row mt-4" [formGroup]="historiaForm">
+        <label class="font-weight-bold col-2">Vacuna</label>
+        <div class="input-group col-2 ml-2">
+          <input class="form-control"formControlName="fechaVacu" placeholder="yyyy-mm-dd" [minDate]="minDate"
+                 name="dp"  ngbDatepicker #d="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="d.toggle();" type="button"><i class="fas fa-calendar-day"></i></button>
+          </div>
+        </div>
+        <label class="font-weight-bold col-2 alimento">Alimento</label>
+        <input type="text" class="form-control col-2 inputAlimento" formControlName="alimento">
+    </div>
+    <div class="row mt-4" [formGroup]="historiaForm">
+      <label class="font-weight-bold col-2">Desparacitación</label>
+      <div class="input-group col-2 ml-2">
+        <input class="form-control"formControlName="fechaDes" placeholder="yyyy-mm-dd" [minDate]="minDate" [maxDate]="maxDate"
+               name="dp"  ngbDatepicker #a="ngbDatepicker">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary calendar" (click)="a.toggle();" type="button"><i class="fas fa-calendar-day"></i></button>
+        </div>
+      </div>
+      <label class="font-weight-bold col-2 alimento">Frecuencia</label>
+        <input type="text" class="form-control col-2 inputAlimento" formControlName="frecuencia">
+  </div>
+  <div class="row mt-4" [formGroup]="historiaForm">
+    <label class="font-weight-bold col-2">Estado reproductivo:</label>
+      <input type="text" class="form-control col-2" formControlName="reproductivo">
+</div>
+      <div class="row mt-4">
+        <label class="font-weight-bold col">Enfermedades previas </label>
+        <label class="font-weight-bold col">Cirugías  </label>
+</div>
+
+    <div class="row" [formGroup]="historiaForm">
+        <textarea class="form-control col"  formControlName="enfermedades" placeholder="Enfermedades previas" maxlength="5000"></textarea>
+        <textarea class="form-control col ml-1"  formControlName="cirugias" placeholder="Cirugías" maxlength="5000"></textarea>
+</div>
+<div class="row " [formGroup]="historiaForm">
+  <div class="error col-3">
+    <span *ngIf="historiaForm.get('enfermedades').errors && historiaForm.get('enfermedades').errors.required && historiaForm.get('enfermedades').touched">Enfermedades es obligatorio.</span> 
+  </div>
+  <div class="error col-3 labelerrorCirugia">
+    <span *ngIf="historiaForm.get('cirugias').errors && historiaForm.get('cirugias').errors.required && historiaForm.get('cirugias').touched">Cirugías es obligatorio.</span> 
+  </div>
+</div>
+</div>
+</div>
+<div class="card container  mt-4">
+    <h4 class="text-center mt-2">Motivo de consulta </h4>
+    <div class="card-body">
+<div class=" align-content-center" [formGroup]="historiaForm">
+    <textarea class="form-control motivo ml-1" formControlName="motivo" maxlength="5000" placeholder="Motivo de consulta"></textarea>
+    <div class="error ml-2">
+      <span *ngIf="historiaForm.get('motivo').errors && historiaForm.get('motivo').errors.required && historiaForm.get('motivo').touched">El motivo de consulta es obligatorio.</span> 
+    </div>
+</div>
+</div>
+</div>
+<div class="card container  mt-4">
+    <h4 class="text-center mt-2">Examen Físico</h4>
+    <div class="card-body">
+        <div class="row mt-2" [formGroup]="historiaForm">
+            <label class="font-weight-bold col-2 mt-1"> Temperatura:</label>
+            <input type="text" class="form-control col-2" formControlName="temperatura" maxlength="20">
+            <label class="ml-1 mt-1">ºC</label>
+            <label class="font-weight-bold label col-2 mt-1"> Temperamento:</label>
+            <input type="text" class="form-control col-2" formControlName="temperamento" maxlength="30">
+        </div>
+        <div class="row mt-1">
+          <div class="error col-4" role="alert">
+            <span *ngIf="historiaForm.get('temperatura').errors && historiaForm.get('temperatura').errors.required && historiaForm.get('temperatura').touched">La temperatura es obligatoria.</span>
+          </div>
+          <div class="error col-4 labelDi" role="alert" *ngIf="historiaForm.get('temperamento').errors && historiaForm.get('temperamento').errors.required && historiaForm.get('temperamento').touched">
+            El temperamento es obligatorio.
+          </div>
+        </div>
+        <div class="row mt-5" [formGroup]="historiaForm">
+            <label class="font-weight-bold col-1 mt-1"> Peso:</label>
+            <input type="text" class="form-control col-1" formControlName="peso" maxlength="20">
+            <label class=" ml-1 mt-1">KG</label>
+            <label class="font-weight-bold label col-1 mt-1"> FC:</label>
+            <input type="text" class="form-control col-1" formControlName="fc" maxlength="20">
+            <label class="ml-1 mt-1">LPM</label>
+            <label class="font-weight-bold label col-1 mt-1"> FR:</label>
+            <input type="text" class="form-control col-1" formControlName="fr" maxlength="20">
+            <label class="ml-1 mt-1">RPM</label>
+        </div> 
+        <div class="row ">
+          <div class="error col-2 labelerror">
+            <span *ngIf="historiaForm.get('peso').errors && historiaForm.get('peso').errors.required && historiaForm.get('peso').touched">El peso es obligatorio.</span> 
+          </div>
+          <div class="error pulso col-2">
+           <span *ngIf="historiaForm.get('fc').errors && historiaForm.get('fc').errors.required && historiaForm.get('fc').touched">El campo fc es obligatorio.</span>
+          </div>
+          <div class="error pulso col-2">
+            <span *ngIf="historiaForm.get('fr').errors && historiaForm.get('fr').errors.required && historiaForm.get('fr').touched">El campo fr es obligatorio.</span>
+           </div>
+        </div>
+        <div class="row mt-2" [formGroup]="historiaForm">
+            <label class="font-weight-bold col-1 mt-1"> TLLC:</label>
+            <input type="text" class="form-control col-1" formControlName="tllc" maxlength="20">
+            <label class="ml-1 mt-1">S</label>
+            <label class="font-weight-bold label mm col-1 mt-1"> MM:</label>
+            <input type="text" class="form-control col-1" formControlName="mm" maxlength="20">
+        </div>
+        <div class="row mt-2" [formGroup]="historiaForm" style="text-align: left;">
+          <label class="font-weight-bold col-1 mt-1">Pulso:</label>
+          <input type="text" class="form-control col-2" formControlName="pulso" maxlength="20">
+          <label class="ml-1 mt-1">R/F/S</label>
+      </div>
+        <div class="row ">
+          <div class="error col-2 labelother">
+            <span *ngIf="historiaForm.get('tllc').errors && historiaForm.get('tllc').errors.required && historiaForm.get('tllc').touched">El campo tllc es obligatorio.</span> 
+          </div>
+          <div class="error label1 col-2">
+           <span *ngIf="historiaForm.get('mm').errors && historiaForm.get('mm').errors.required && historiaForm.get('mm').touched">El campo mm es obligatorio.</span>
+          </div>
+          <div class="error pulso col-2">
+            <span *ngIf="historiaForm.get('pulso').errors && historiaForm.get('pulso').errors.required && historiaForm.get('pulso').touched">El campo pulso es obligatorio.</span>
+           </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col">
+            <label class="font-weight-bold">Sistema</label>
+            <label class="font-weight-bold normal">Normal</label>
+            <label class="font-weight-bold ml-3">Anormal</label>
+            <label class="font-weight-bold ml-4">No explorado</label>
+        </div>
+        <div class="col">
+            <label class="font-weight-bold ">Sistema</label>
+            <label class="font-weight-bold normal">Normal</label>
+            <label class="font-weight-bold ml-3">Anormal</label>
+            <label class="font-weight-bold ml-4">No explorado</label>
+        </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col">
+                <div class="row" [formGroup]="historiaForm">
+                    <label class="col-4">Actitud</label>
+                    <div class="form-check form-check-inline col-1">
+                        <input class="form-check-input" type="radio" name="actitud" formControlName="actitud" id="inlineRadio1" value="N">
+                      </div>
+                      <div class="form-check form-check-inline col-1 anor">
+                        <input class="form-check-input" type="radio" name="actitud" formControlName="actitud" id="inlineRadio2" value="A">
+                      </div>
+                      <div class="form-check form-check-inline col-1 noex">
+                        <input class="form-check-input" type="radio" name="actitud" formControlName="actitud" id="inlineRadio3" value="NE">
+                      </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row" [formGroup]="historiaForm">
+                    <label class="col-4">Digestivo</label>
+                    <div class="form-check form-check-inline col-1">
+                        <input class="form-check-input" type="radio" name="digestivo" formControlName="digestivo" id="inlineRadio1" value="N">
+                      </div>
+                      <div class="form-check form-check-inline col-1 anor">
+                        <input class="form-check-input" type="radio" name="digestivo" formControlName="digestivo" id="inlineRadio2" value="A">
+                      </div>
+                      <div class="form-check form-check-inline col-1 noex">
+                        <input class="form-check-input" type="radio" name="digestivo" formControlName="digestivo" id="inlineRadio3" value="NE">
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col">
+                <div class="row" [formGroup]="historiaForm">
+                    <label class="col-4">Hidratación</label>
+                    <div class="form-check form-check-inline col-1">
+                        <input class="form-check-input" type="radio" name="hidratacion" formControlName="hidratacion" id="inlineRadio1" value="N">
+                      </div>
+                      <div class="form-check form-check-inline col-1 anor">
+                        <input class="form-check-input" type="radio" name="hidratacion" formControlName="hidratacion" id="inlineRadio2" value="A">
+                      </div>
+                      <div class="form-check form-check-inline col-1 noex">
+                        <input class="form-check-input" type="radio" name="hidratacion" formControlName="hidratacion" id="inlineRadio3" value="NE">
+                      </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row" [formGroup]="historiaForm">
+                    <label class="col-4">Urinario</label>
+                    <div class="form-check form-check-inline col-1">
+                        <input class="form-check-input" type="radio" name="urinario" formControlName="urinario" id="inlineRadio1" value="N">
+                      </div>
+                      <div class="form-check form-check-inline col-1 anor">
+                        <input class="form-check-input" type="radio" name="urinario" formControlName="urinario" id="inlineRadio2" value="A">
+                      </div>
+                      <div class="form-check form-check-inline col-1 noex">
+                        <input class="form-check-input" type="radio" name="urinario" formControlName="urinario" id="inlineRadio3" value="NE">
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col">
+                <div class="row" [formGroup]="historiaForm">
+                    <label class="col-4">Nervioso</label>
+                    <div class="form-check form-check-inline col-1">
+                        <input class="form-check-input" type="radio" name="nervioso" formControlName="nervioso" id="inlineRadio1" value="N">
+                      </div>
+                      <div class="form-check form-check-inline col-1 anor">
+                        <input class="form-check-input" type="radio" name="nervioso" formControlName="nervioso" id="inlineRadio2" value="A">
+                      </div>
+                      <div class="form-check form-check-inline col-1 noex">
+                        <input class="form-check-input" type="radio" name="nervioso" formControlName="nervioso" id="inlineRadio3" value="NE">
+                      </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row" [formGroup]="historiaForm">
+                    <label class="col-4">Linfoide</label>
+                    <div class="form-check form-check-inline col-1">
+                        <input class="form-check-input" type="radio" name="linofoi" formControlName="linofoi" id="inlineRadio1" value="N">
+                      </div>
+                      <div class="form-check form-check-inline col-1 anor">
+                        <input class="form-check-input" type="radio" name="linofoi" formControlName="linofoi" id="inlineRadio2" value="A">
+                      </div>
+                      <div class="form-check form-check-inline col-1 noex">
+                        <input class="form-check-input" type="radio" name="linofoi" formControlName="linofoi" id="inlineRadio3" value="NE">
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col">
+                <div class="row" [formGroup]="historiaForm">
+                    <label class="col-4">Piel</label>
+                    <div class="form-check form-check-inline col-1">
+                        <input class="form-check-input" type="radio" name="piel" formControlName="piel" id="inlineRadio1" value="N">
+                      </div>
+                      <div class="form-check form-check-inline col-1 anor">
+                        <input class="form-check-input" type="radio" name="piel" formControlName="piel" id="inlineRadio2" value="A">
+                      </div>
+                      <div class="form-check form-check-inline col-1 noex">
+                        <input class="form-check-input" type="radio" name="piel" formControlName="piel" id="inlineRadio3" value="NE">
+                      </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row" [formGroup]="historiaForm">
+                    <label class="col-4">Reproductor</label>
+                    <div class="form-check form-check-inline col-1">
+                        <input class="form-check-input" type="radio" name="reproductor" formControlName="reproductor" id="inlineRadio1" value="N">
+                      </div>
+                      <div class="form-check form-check-inline col-1 anor">
+                        <input class="form-check-input" type="radio" name="reproductor" formControlName="reproductor" id="inlineRadio2" value="A">
+                      </div>
+                      <div class="form-check form-check-inline col-1 noex">
+                        <input class="form-check-input" type="radio" name="reproductor" formControlName="reproductor" id="inlineRadio3" value="NE">
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col">
+                <div class="row" [formGroup]="historiaForm">
+                    <label class="col-4">Musculoesqueletico</label>
+                    <div class="form-check form-check-inline col-1">
+                        <input class="form-check-input" type="radio" name="muscu" formControlName="muscu" id="inlineRadio1" value="N">
+                      </div>
+                      <div class="form-check form-check-inline col-1 anor">
+                        <input class="form-check-input" type="radio" name="muscu" formControlName="muscu" id="inlineRadio2" value="A">
+                      </div>
+                      <div class="form-check form-check-inline col-1 noex">
+                        <input class="form-check-input" type="radio" name="muscu" formControlName="muscu" id="inlineRadio3" value="NE">
+                      </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row" [formGroup]="historiaForm">
+                    <label class="col-4">Ojos</label>
+                    <div class="form-check form-check-inline col-1">
+                        <input class="form-check-input" type="radio" name="ojos" formControlName="ojos"  id="inlineRadio1" value="N">
+                      </div>
+                      <div class="form-check form-check-inline col-1 anor">
+                        <input class="form-check-input" type="radio" name="ojos" formControlName="ojos"  id="inlineRadio2" value="A">
+                      </div>
+                      <div class="form-check form-check-inline col-1 noex">
+                        <input class="form-check-input" type="radio" name="ojos" formControlName="ojos"  id="inlineRadio3" value="NE">
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col">
+                <div class="row" [formGroup]="historiaForm">
+                    <label class="col-4">Respiratorio</label>
+                    <div class="form-check form-check-inline col-1">
+                        <input class="form-check-input" type="radio" name="respiratorio" formControlName="respiratorio" id="inlineRadio1" value="N">
+                      </div>
+                      <div class="form-check form-check-inline col-1 anor">
+                        <input class="form-check-input" type="radio" name="respiratorio" formControlName="respiratorio"  id="inlineRadio2" value="A">
+                      </div>
+                      <div class="form-check form-check-inline col-1 noex">
+                        <input class="form-check-input" type="radio" name="respiratorio" formControlName="respiratorio" id="inlineRadio3" value="NE">
+                      </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row" [formGroup]="historiaForm">
+                    <label class="col-4">Oídos</label>
+                    <div class="form-check form-check-inline col-1">
+                        <input class="form-check-input" type="radio" name="oidos" formControlName="oidos" id="inlineRadio1" value="N">
+                      </div>
+                      <div class="form-check form-check-inline col-1 anor">
+                        <input class="form-check-input" type="radio" name="oidos" id="inlineRadio2" formControlName="oidos" value="A">
+                      </div>
+                      <div class="form-check form-check-inline col-1 noex">
+                        <input class="form-check-input" type="radio" name="oidos" id="inlineRadio3" formControlName="oidos" value="NE">
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col">
+                <div class="row" [formGroup]="historiaForm">
+                    <label class="col-4">Cardiovascular</label>
+                    <div class="form-check form-check-inline col-1">
+                        <input class="form-check-input" type="radio" name="cardiovacular" id="inlineRadio1" formControlName="cardiovacular" value="N">
+                      </div>
+                      <div class="form-check form-check-inline col-1 anor">
+                        <input class="form-check-input" type="radio" name="cardiovacular" id="inlineRadio2"  formControlName="cardiovacular"value="A">
+                      </div>
+                      <div class="form-check form-check-inline col-1 noex">
+                        <input class="form-check-input" type="radio" name="cardiovacular" id="inlineRadio3" formControlName="cardiovacular" value="NE">
+                      </div>
+                </div>
+            </div>
+            <div class="col">
+            </div>
+        </div>
+</div>
+</div>
+<div class="card container  mt-4" >
+    <h4 class="text-center mt-2">Hallazgos anormales </h4>
+    <div class="card-body">
+<div class=" align-content-center" [formGroup]="historiaForm">
+    <textarea class="form-control  ml-1" placeholder="Hallazgos anormales" formControlName="hallaz" maxlength="5000"></textarea>
+    <div class="error ml-2">
+      <span *ngIf="historiaForm.get('hallaz').errors && historiaForm.get('hallaz').errors.required && historiaForm.get('hallaz').touched">Hallazgos anormales es obligatorio.</span> 
+    </div>
+    <div class="row">
+        <div class=" mt-5 tabla">
+            <label class="font-weight-bold label">Lista de problemas</label>
+            <label class="font-weight-bold lmaestra ">Lista maestra</label>
+        </div>
+        </div>
+        
+        <div class="row mt-1 ml-2" *ngFor="let item of arrayTabla.controls; index as i">
+          <div class="colgene ml-2" [formGroup]="arrayTabla.controls[i]">
+            <div class="row" >
+              <input type="text" class="form-control col-5" formControlName="problema" (blur)="validProblemas(i,'problema')" maxlength="200">
+              <select class="custom-select col-2 ml-2 col-5" formControlName="problemaSelect" (change)="validProblemas(i,'problema')">
+                <option selected value="Selección">Selección</option>
+                <option *ngFor="let value of problema" value = "{{value}}">{{value}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="colgene mlMa" [formGroup]="arrayTabla.controls[i]">
+            <div class="row">
+              <input type="text" class="form-control col-5" formControlName="maestra" (blur)="validProblemas(i,'maestra')" maxlength="200">
+              <select class="custom-select col-2 ml-2 col-5" formControlName="maestraSelect" (change)="validProblemas(i,'maestra')">
+                <option selected value="Selección">Selección</option>
+                <option *ngFor="let value of maestra" value = "{{value}}">{{value}}</option>
+              </select>
+            </div>
+          </div>
+
+      </div>
+      <div class="row">
+        <div class=" mt-5 tabla">
+            <label class="font-weight-bold label">Diagnóstico diferencial</label>
+            <label class="font-weight-bold examen">Exámenes complementarios</label>
+        </div>
+        </div>
+        <div class="row mt-1 ml-2" *ngFor="let item of arrayTabla.controls; index as i">
+          <div class="colgene ml-2" [formGroup]="arrayTabla.controls[i]">
+            <div class="row">
+              <input type="text" class="form-control col-5" formControlName="diferencial" (blur)="validProblemas(i,'diferencial')" maxlength="200">
+              <select class="custom-select col-2 ml-2 col-5" formControlName="diferencialSelect" (change)="validProblemas(i,'diferencial')">
+                <option selected value="Selección">Selección</option>
+                <option *ngFor="let value of diferencia" value = "{{value}}">{{value}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="colgene mlMa" [formGroup]="arrayTabla.controls[i]">
+            <div class="row">
+              <input type="text" class="form-control col-5" formControlName="complemen" (blur)="validProblemas(i,'complemen')" maxlength="200">
+              <select class="custom-select col-2 ml-2 col-5" formControlName="complemenSelect" (change)="validProblemas(i,'complemen')">
+                <option selected value="Selección">Selección</option>
+                <option *ngFor="let value of complemento" value = "{{value}}">{{value}}</option>
+              </select>
+            </div>
+          </div>
+      </div>
+      <button type="button" class="btn btn-info mt-2" (click)="initArray()"><i class="fas fa-plus-circle"></i></button>
+</div>
+</div>
+</div>
+<div class="card container  mt-4">
+    <h4 class="text-center mt-2">Detalles de consulta </h4>
+    <div class="card-body">
+<div class=" align-content-center" [formGroup]="historiaForm">
+    <textarea class="form-control halla ml-1" placeholder="Detalles de consulta" formControlName="detalle" maxlength="5000"></textarea>
+    <div class="error ml-2">
+      <span *ngIf="historiaForm.get('detalle').errors && historiaForm.get('detalle').errors.required && historiaForm.get('detalle').touched">El detalle de consulta es obligatorio.</span> 
+    </div>
+</div>
+</div>
+</div>
+<div class="card container  mt-4">
+  <h4 class="text-center mt-2">Tratamientos anteriores</h4>
+  <div class="card-body">
+<div class=" align-content-center" [formGroup]="historiaForm">
+  <textarea class="form-control halla ml-1" placeholder="Tratamientos anteriores" formControlName="tratamientos" maxlength="5000"></textarea>
+</div>
+</div>
+</div>
+<div class="card container  mt-4">
+    <h4 class="text-center mt-2">Plan terapéutico </h4>
+    <div class="card-body">
+<div class=" align-content-center" [formGroup]="historiaForm">
+    <textarea class="form-control halla ml-1" placeholder="Plan terapéutico" formControlName="terapeu" maxlength="5000"></textarea>
+    <div class="error ml-2">
+      <span *ngIf="historiaForm.get('terapeu').errors && historiaForm.get('terapeu').errors.required && historiaForm.get('terapeu').touched">El plan terapeutico es obligatorio.</span> 
+    </div>
+</div>
+</div>
+</div>
+<div class="card container  mt-4">
+    <h4 class="text-center mt-2">Seguimiento</h4>
+    <div class="card-body">
+<div class=" align-content-center" [formGroup]="historiaForm">
+    <textarea class="form-control motivo ml-1" placeholder="Seguimiento" formControlName="segui" maxlength="5000"></textarea>
+</div>
+<button type="button" class="btn btn-info mt-2" data-toggle="modal" data-target="#seguimodal"  (click)= "seguiPass(undefined,-1)"><i class="fas fa-plus-circle"></i></button>
+  <div class="container">
+    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+      <div class="btn-group mr-2" role="group" aria-label="First group">
+        <div class="row mt-1 ml-2" *ngFor="let item of seguiHistoria; index as i">
+          <button type="button" class="btn btn-light mr-2" data-toggle="modal" data-target="#seguimodal" (click)= "seguiPass(item,i)">{{seguiHistoria[i].fecha.date.day+'-'+seguiHistoria[i].fecha.date.month+'-'+ seguiHistoria[i].fecha.date.year}}</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+ 
+</div>
+</div>
+<div class="container" style="align-content: left;">
+<button type="button" class="btn btn-info mt-2 ml-2" [disabled]="!formu" data-toggle="modal" data-target="#formula">Formula medica</button>
+<button type="button" class="btn btn-info mt-2 ml-2" (click)="submit()">Enviar</button>
+<button type="button" class="btn btn-info mt-2 ml-2" (click)="printDoc()"><i class="fas fa-file-download"></i></button> 
+
+</div>
+<br>
+<app-modal-formula [mascota]="mascota" [cdHistoria]="cdHistoria"></app-modal-formula>
+<app-modal-seguimiento [seguiHisto]="seguimiento" [index]="index" (notify)="recieve($event)"></app-modal-seguimiento>

@@ -1,0 +1,85 @@
+.infoColor{
+    color: white;
+}
+.label{
+    margin-left: 150px;
+}
+.marginPresentacion{
+    margin-left: 40px;
+}
+.marginElegir{
+    margin-left: 65px;
+}
+.mm{
+    margin-left: 163px;
+}
+.pulso{
+    margin-left: 188px;
+}
+.normal{
+    margin-left: 90px;
+}
+.anor{
+    margin-left: 20px;
+}
+.noex{
+    margin-left: 60px;
+}
+.tabla{
+    column-gap: 1rem;
+}
+.labelDi{
+    margin-left: 170px;
+}
+.label1{
+    margin-left: 180px;
+}
+.labelExa{
+    margin-left: 100px;
+}
+.mlMaestra{
+    margin-left: 50px;
+}
+.colgene{
+    width: 500px;
+}
+.mlMa{
+    margin-left: 40px;
+}
+.mlDi{
+    margin-left: 30px;
+}
+.mlCom{
+    margin-left: 20px;
+}
+.error{
+    color: red;
+    font-size: 14px;
+}
+.labelerrorpre{
+    margin-left: 40px;
+}
+.labelerror{
+    margin-left: 65px;
+}
+.labelother{
+    margin-left: 75px;
+}
+.labelerrorFecha{
+    margin-left: 80px;
+}
+.labelerrorCirugia{
+    margin-left: 275px;
+}
+.alimento{
+    margin-left: 158px; 
+}
+.inputAlimento{
+    margin-left: 76px;
+}
+.lmaestra{
+    margin-left: 440px;
+}
+.examen{
+    margin-left: 370px;
+}

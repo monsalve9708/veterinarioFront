@@ -1,0 +1,26 @@
+<div class="container alert alert-danger mt-2" *ngIf="validError" role="alert">
+    Ha ocurrido un error! Comuniquese con su administrador
+  </div>
+<h1 class="text-center text-info mt-2">Bienvenido a Huellas Sanas</h1>
+<img class="rounded mx-auto d-block mt-5 imagelogo" src="../../assets/huellassanas.png" alt="Huellas Sanas">
+<div class="container mt-5 d-flex justify-content-center">
+    <form [formGroup]="login" action="authentic()">
+    <div class="card mt-2" style="width: 30rem;border-color: gray;">
+        <div class="card-body mt-3">
+            <div class="row ">
+            <h5 class="col-sm-3 mt-2 h5">Usuario: </h5>
+            <input formControlName="usuario" class="form-control col-sm-5 input" type="text">
+        </div>
+        <div class="row mt-4">
+            <h5 class="col-sm-4 mt-2 h5">Contraseña: </h5>
+            <input formControlName="contraseña" class="form-control col-sm-5" type="password">
+        </div>
+        <h6 class="error" *ngIf="validLogin">Usuario o contraseña incorrecto</h6>
+        <div class="text-center">
+        <button type="button" [disabled]="!login.valid" (click) = "authentic()" class="btn btn-info mt-4">Iniciar Sesión</button>
+    </div>
+        </div>
+      </div>
+    </form>
+</div>
+<br>
